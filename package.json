@@ -1,0 +1,23 @@
+{
+  "name": "anushree-billing-app",
+  "version": "1.0.0",
+  "description": "Billing Website for ANUSHREE CONSTRUCTION",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "seed": "node seed.js"
+  },
+  "keywords": [],
+  "author": "ANUSHREE CONSTRUCTION",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "connect-mongo": "^5.1.0",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "express-session": "^1.17.3",
+    "exceljs": "^4.4.0",
+    "mongoose": "^7.6.3",
+    "node-cron": "^3.0.2"
+  }
+}
