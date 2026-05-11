@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="ANUSHREE CONSTRUCTION - Billing Dashboard">
+  <title>Dashboard - ANUSHREE CONSTRUCTION</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+  <!-- Mobile Menu Button -->
+  <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle menu">☰</button>
+
+  <div class="dashboard-layout">
+
+    <!-- ==================== Sidebar ==================== -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <div class="company-name">
+          <span class="icon">🏗️</span>
+          ANUSHREE
+        </div>
+        <div class="subtitle">Construction Billing</div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <button class="nav-item active" data-section="dashboard" id="nav-dashboard">
+          <span class="nav-icon">📊</span> Dashboard
+        </button>
+        <button class="nav-item" data-section="customers" id="nav-customers">
+          <span class="nav-icon">👥</span> Customers
+        </button>
+        <button class="nav-item" data-section="products" id="nav-products">
+          <span class="nav-icon">📦</span> Products
+        </button>
+        <button class="nav-item" data-section="create-invoice" id="nav-create-invoice">
+          <span class="nav-icon">📝</span> Create Invoice
+        </button>
+        <button class="nav-item" data-section="history" id="nav-history">
+          <span class="nav-icon">📋</span> Invoice History
+        </button>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="user-info">
+          <div class="user-avatar" id="userAvatar">A</div>
+          <span id="usernameDisplay">Admin</span>
+        </div>
+        <button class="nav-item" id="logoutBtn" style="color: var(--danger);">
+          <span class="nav-icon">🚪</span> Logout
+        </button>
+      </div>
+    </aside>
+
+    <!-- ==================== Main Content ==================== -->
+    <main class="main-content">
+
+      <!-- ===== DASHBOARD Section ===== -->
+      <section class="content-section active" id="section-dashboard">
+        <div class="page-header">
+          <h2>📊 Dashboard</h2>
+          <p>Welcome to ANUSHREE CONSTRUCTION Billing System</p>
+        </div>
+
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-icon">👥</div>
+            <div class="stat-value" id="totalCustomers">0</div>
+            <div class="stat-label">Total Customers</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">📄</div>
+            <div class="stat-value" id="totalBills">0</div>
+            <div class="stat-label">Total Invoices</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">💰</div>
+            <div class="stat-value" id="totalRevenue">₹0</div>
+            <div class="stat-label">Total Revenue</div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h3>📋 Recent Invoices</h3>
+          </div>
+          <div class="card-body" id="recentBillsList">
+            <div class="empty-state">
+              <div class="empty-icon">📄</div>
+              <p>No invoices yet. Create your first invoice!</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== CUSTOMERS Section ===== -->
+      <section class="content-section" id="section-customers">
+        <div class="page-header">
+          <h2>👥 Customers</h2>
+          <p>Manage your customer database</p>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div class="search-bar">
+              <span class="search-icon">🔍</span>
+              <input type="text" id="customerSearch" placeholder="Search customers...">
+            </div>
+            <button class="btn btn-primary" id="addCustomerBtn">+ Add Customer</button>
+          </div>
+          <div class="card-body">
+            <div class="table-wrapper">
+              <table id="customersTable">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Name</th>
+                    <th>Phone</th>
+                    <th>Address</th>
+                    <th>GSTIN</th>
+                    <th>State</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="customersTableBody">
+                </tbody>
+              </table>
+            </div>
+            <div class="empty-state" id="customersEmpty" style="display:none;">
+              <div class="empty-icon">👥</div>
+              <p>No customers yet. Add your first customer!</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== PRODUCTS Section ===== -->
+      <section class="content-section" id="section-products">
+        <div class="page-header">
+          <h2>📦 Products</h2>
+          <p>Manage your product catalog</p>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div class="search-bar">
+              <span class="search-icon">🔍</span>
+              <input type="text" id="productSearch" placeholder="Search products...">
+            </div>
+            <button class="btn btn-primary" id="addProductBtn">+ Add Product</button>
+          </div>
+          <div class="card-body">
+            <div class="table-wrapper">
+              <table id="productsTable">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Product Name</th>
+                    <th>HSN Code</th>
+                    <th>Rate (₹)</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="productsTableBody">
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== CREATE INVOICE Section ===== -->
+      <section class="content-section" id="section-create-invoice">
+        <div class="page-header">
+          <h2>📝 Create Invoice</h2>
+          <p>Generate a new tax invoice</p>
+        </div>
+
+        <!-- Invoice Meta -->
+        <div class="invoice-form-section">
+          <h4>📋 Invoice Details</h4>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Invoice Number</label>
+              <input type="text" id="invoiceNo">
+            </div>
+            <div class="form-group">
+              <label>Invoice Date</label>
+              <input type="date" id="invoiceDate">
+            </div>
+          </div>
+        </div>
+
+        <!-- Buyer Details -->
+        <div class="invoice-form-section">
+          <h4>👤 Buyer Details</h4>
+          <div class="form-group">
+            <label>Select Customer</label>
+            <select id="customerSelect">
+              <option value="">-- Select a customer --</option>
+            </select>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Name</label>
+              <input type="text" id="buyerName" placeholder="Customer name">
+            </div>
+            <div class="form-group">
+              <label>Phone</label>
+              <input type="text" id="buyerPhone" placeholder="Phone number">
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Address</label>
+            <input type="text" id="buyerAddress" placeholder="Customer address">
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>GSTIN (if applicable)</label>
+              <input type="text" id="buyerGstin" placeholder="GSTIN">
+            </div>
+            <div class="form-group">
+              <label>State</label>
+              <input type="text" id="buyerState" value="Maharashtra">
+            </div>
+          </div>
+        </div>
+
+        <!-- Item Table -->
+        <div class="invoice-form-section">
+          <h4>📦 Items</h4>
+
+          <!-- Column Headers for Items -->
+          <div class="item-row" style="margin-bottom:4px; font-size:0.75rem; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.5px;">
+            <div>S.No</div>
+            <div>Item Name</div>
+            <div>HSN</div>
+            <div>Qty</div>
+            <div>Rate</div>
+            <div>Amount</div>
+            <div></div>
+          </div>
+
+          <div id="itemsContainer">
+            <!-- Item rows will be added here dynamically -->
+          </div>
+
+          <button class="btn btn-secondary" id="addItemBtn" style="margin-top: 12px;">+ Add Item</button>
+        </div>
+
+        <!-- Calculations -->
+        <div class="invoice-form-section">
+          <h4>💰 Summary</h4>
+          <div class="calculations-grid">
+            <div>
+              <!-- Bank Details (left side) -->
+              <div style="background: var(--bg-secondary); border-radius: var(--radius-sm); padding: 16px; font-size: 0.85rem; color: var(--text-secondary);">
+                <strong style="color: var(--text-primary);">Bank Details</strong><br><br>
+                The Nasik Merchants Co-operative<br>
+                Bank Ltd. Nashik<br>
+                A/C No: 065100100000011<br>
+                Branch: Chakan<br>
+                IFSC: NMCB0000066
+              </div>
+            </div>
+            <div>
+              <!-- Calculations (right side) -->
+              <div class="calc-row">
+                <span class="calc-label">Total</span>
+                <span class="calc-value" id="calcTotal">₹0.00</span>
+              </div>
+              <div class="calc-row">
+                <span class="calc-label">CGST (2.5%)</span>
+                <span class="calc-value" id="calcCgst">₹0.00</span>
+              </div>
+              <div class="calc-row">
+                <span class="calc-label">SGST (2.5%)</span>
+                <span class="calc-value" id="calcSgst">₹0.00</span>
+              </div>
+              <div class="calc-row">
+                <span class="calc-label">Labour Charge</span>
+                <span class="calc-value">
+                  <input type="number" id="labourCharge" value="0" min="0" step="0.01"
+                    style="width:120px; text-align:right; padding:8px; background:var(--bg-input); border:1px solid var(--border); border-radius:var(--radius-sm); color:var(--text-primary); font-family:'Outfit',sans-serif; font-weight:700;">
+                </span>
+              </div>
+              <div class="calc-row">
+                <span class="calc-label">Discount</span>
+                <span class="calc-value">
+                  <input type="number" id="discountAmount" value="0" min="0" step="0.01"
+                    style="width:120px; text-align:right; padding:8px; background:var(--bg-input); border:1px solid var(--border); border-radius:var(--radius-sm); color:var(--text-primary); font-family:'Outfit',sans-serif; font-weight:700;">
+                </span>
+              </div>
+              <div class="calc-row total-row">
+                <span class="calc-label">Grand Total</span>
+                <span class="calc-value" id="calcGrandTotal">₹0.00</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="amount-words" id="amountInWords">
+            Amount in words: Rupees Zero Only
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div style="display:flex; gap:16px; margin-top:16px; flex-wrap:wrap;">
+          <button class="btn btn-primary" id="saveBillBtn" style="flex:1; min-width:200px;">
+            💾 Save & Download Excel
+          </button>
+          <button class="btn btn-secondary" id="resetInvoiceBtn" style="flex:1; min-width:200px;">
+            🔄 Reset Form
+          </button>
+        </div>
+      </section>
+
+      <!-- ===== INVOICE HISTORY Section ===== -->
+      <section class="content-section" id="section-history">
+        <div class="page-header">
+          <h2>📋 Invoice History</h2>
+          <p>View and download past invoices</p>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div class="search-bar">
+              <span class="search-icon">🔍</span>
+              <input type="text" id="historySearch" placeholder="Search invoices...">
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="table-wrapper">
+              <table id="historyTable">
+                <thead>
+                  <tr>
+                    <th>Invoice No</th>
+                    <th>Date</th>
+                    <th>Customer</th>
+                    <th>Amount</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="historyTableBody">
+                </tbody>
+              </table>
+            </div>
+            <div class="empty-state" id="historyEmpty" style="display:none;">
+              <div class="empty-icon">📋</div>
+              <p>No invoices found.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- ==================== Customer Modal ==================== -->
+  <div class="modal-backdrop" id="customerModal">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 id="customerModalTitle">Add Customer</h3>
+        <button class="modal-close" id="customerModalClose">✕</button>
+      </div>
+      <div class="modal-body">
+        <form id="customerForm">
+          <input type="hidden" id="customerId">
+          <div class="form-group">
+            <label>Customer Name *</label>
+            <input type="text" id="custName" placeholder="Enter customer name" required>
+          </div>
+          <div class="form-group">
+            <label>Phone</label>
+            <input type="text" id="custPhone" placeholder="Phone number">
+          </div>
+          <div class="form-group">
+            <label>Address</label>
+            <textarea id="custAddress" placeholder="Full address" rows="2"></textarea>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>GSTIN</label>
+              <input type="text" id="custGstin" placeholder="GSTIN">
+            </div>
+            <div class="form-group">
+              <label>State</label>
+              <input type="text" id="custState" value="Maharashtra">
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" id="customerModalCancel">Cancel</button>
+        <button class="btn btn-primary" id="customerModalSave">Save Customer</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== Product Modal ==================== -->
+  <div class="modal-backdrop" id="productModal">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 id="productModalTitle">Add Product</h3>
+        <button class="modal-close" id="productModalClose">✕</button>
+      </div>
+      <div class="modal-body">
+        <form id="productForm">
+          <input type="hidden" id="productId">
+          <div class="form-group">
+            <label>Product Name *</label>
+            <input type="text" id="prodName" placeholder="Enter product name" required>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>HSN Code *</label>
+              <input type="text" id="prodHsn" placeholder="HSN Code" required>
+            </div>
+            <div class="form-group">
+              <label>Rate (₹) *</label>
+              <input type="number" id="prodRate" placeholder="Rate" step="0.01" min="0" required>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" id="productModalCancel">Cancel</button>
+        <button class="btn btn-primary" id="productModalSave">Save Product</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== Invoice View Modal ==================== -->
+  <div class="modal-backdrop" id="invoiceViewModal">
+    <div class="modal" style="max-width:750px;">
+      <div class="modal-header">
+        <h3>Invoice Preview</h3>
+        <button class="modal-close" id="invoiceViewClose">✕</button>
+      </div>
+      <div class="modal-body" style="padding:0;">
+        <div class="invoice-container" id="invoicePreviewContent">
+          <!-- Invoice preview will be rendered here -->
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" id="invoiceViewCloseBtn">Close</button>
+        <button class="btn btn-danger" id="invoiceViewDownloadPdf" style="margin-right:auto;">📄 Download PDF</button>
+        <button class="btn btn-primary" id="invoiceViewDownload">📥 Download Excel</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <script src="/js/utils.js"></script>
+  <script src="/js/dashboard.js"></script>
+</body>
+</html>
