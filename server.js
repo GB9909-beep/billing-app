@@ -17,7 +17,7 @@ const startArchiver = require('./utils/archiver');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/anushree-billing';
+const MONGODB_URI = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/anushree-billing';
 
 // Required for HTTPS on Render (trust proxy)
 app.set('trust proxy', 1);
